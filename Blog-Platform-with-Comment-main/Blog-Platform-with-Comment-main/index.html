@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inkwell — A Modern Blogging Platform</title>
+  <meta name="description" content="Inkwell is a beautiful blogging platform where you can share stories, thoughts, and ideas with the world. Create posts and engage with comments." />
+  <meta name="keywords" content="blog, writing, articles, stories, community, comments" />
+  <meta name="author" content="Inkwell" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Inkwell — A Modern Blogging Platform" />
+  <meta property="og:description" content="Share your stories with the world on Inkwell." />
+  <meta property="og:type" content="website" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <!-- Background Orbs -->
+  <div class="bg-orbs" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-container">
+      <a href="#" class="nav-logo" id="nav-logo-btn" aria-label="Inkwell home">
+        <span class="logo-icon">✦</span>
+        <span class="logo-text">Inkwell</span>
+      </a>
+
+      <div class="nav-search" role="search">
+        <span class="search-icon" aria-hidden="true">⌕</span>
+        <input type="text" id="search-input" placeholder="Search posts..." aria-label="Search posts" autocomplete="off" />
+      </div>
+
+      <div class="nav-actions">
+        <!-- Guest state -->
+        <div class="nav-guest" id="nav-guest">
+          <button class="btn btn-ghost" id="nav-login-btn">Log In</button>
+          <button class="btn btn-primary" id="nav-register-btn">Get Started</button>
+        </div>
+        <!-- Auth state -->
+        <div class="nav-auth hidden" id="nav-auth">
+          <button class="btn btn-primary" id="nav-write-btn">
+            <span>✦</span> Write Post
+          </button>
+          <button class="nav-avatar" id="nav-avatar-btn" aria-label="Your profile" aria-expanded="false">
+            <span class="avatar-letter" id="nav-avatar-letter">A</span>
+          </button>
+          <!-- Dropdown -->
+          <div class="nav-dropdown hidden" id="nav-dropdown" role="menu">
+            <div class="dropdown-header">
+              <span class="dropdown-username" id="dropdown-username">Username</span>
+              <span class="dropdown-email" id="dropdown-email">email@example.com</span>
+            </div>
+            <hr class="dropdown-divider" />
+            <button class="dropdown-item" id="dropdown-profile-btn" role="menuitem">
+              <span>◉</span> My Posts
+            </button>
+            <button class="dropdown-item dropdown-item-danger" id="dropdown-logout-btn" role="menuitem">
+              <span>↩</span> Log Out
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content Area -->
+  <main class="main-content" id="main-content" role="main">
+
+    <!-- ======== VIEW: HOME FEED ======== -->
+    <div id="view-home" class="view active">
+      <div class="container">
+        <!-- Hero section -->
+        <section class="hero" aria-label="Hero">
+          <div class="hero-badge">✦ A place for every story</div>
+          <h1 class="hero-title">Where Ideas Come <span class="gradient-text">Alive</span></h1>
+          <p class="hero-subtitle">Discover stories, share insights, and connect with writers from around the world.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary btn-lg" id="hero-start-btn">Start Writing</button>
+            <button class="btn btn-ghost btn-lg" id="hero-explore-btn">Explore Posts ↓</button>
+          </div>
+        </section>
+
+        <!-- Posts section -->
+        <section class="posts-section" aria-label="Blog posts">
+          <div class="section-header">
+            <h2 class="section-title">Latest Stories</h2>
+            <div class="filter-tabs" role="tablist">
+              <button class="filter-tab active" data-filter="all" role="tab" aria-selected="true">All</button>
+            </div>
+          </div>
+          <!-- Loading state -->
+          <div class="posts-loading" id="posts-loading" aria-live="polite" aria-label="Loading posts">
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+          </div>
+          <!-- Posts grid -->
+          <div class="posts-grid" id="posts-grid" aria-label="Blog post list"></div>
+          <!-- Empty state -->
+          <div class="empty-state hidden" id="posts-empty">
+            <div class="empty-icon">📝</div>
+            <h3>No posts yet</h3>
+            <p>Be the first to share a story!</p>
+            <button class="btn btn-primary" id="empty-write-btn">Write the First Post</button>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- ======== VIEW: POST DETAIL ======== -->
+    <div id="view-post" class="view">
+      <div class="container container-narrow">
+        <button class="back-btn" id="back-to-home-btn" aria-label="Back to home">
+          ← Back to Feed
+        </button>
+        <article id="post-detail-content" aria-label="Blog post"></article>
+
+        <!-- Comment section -->
+        <section class="comments-section" id="comments-section" aria-label="Comments">
+          <h2 class="comments-title">
+            <span>💬</span>
+            <span id="comments-count">0</span> Comments
+          </h2>
+
+          <!-- Add comment form -->
+          <div class="comment-form-wrapper" id="comment-form-wrapper">
+            <div class="comment-input-group">
+              <div class="comment-avatar" id="comment-form-avatar">
+                <span id="comment-form-avatar-letter">?</span>
+              </div>
+              <div class="comment-input-container">
+                <textarea
+                  id="comment-input"
+                  placeholder="Share your thoughts..."
+                  aria-label="Write a comment"
+                  rows="3"
+                  maxlength="2000"
+                ></textarea>
+                <div class="comment-input-footer">
+                  <span class="char-count" id="comment-char-count">0 / 2000</span>
+                  <button class="btn btn-primary btn-sm" id="submit-comment-btn">Post Comment</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Login prompt -->
+          <div class="comment-login-prompt hidden" id="comment-login-prompt">
+            <p>Join the conversation! <button class="link-btn" id="comment-login-btn">Log in</button> or <button class="link-btn" id="comment-register-btn">create an account</button>.</p>
+          </div>
+
+          <!-- Comments list -->
+          <div class="comments-list" id="comments-list" aria-label="Comments list"></div>
+        </section>
+      </div>
+    </div>
+
+    <!-- ======== VIEW: WRITE / EDIT POST ======== -->
+    <div id="view-editor" class="view">
+      <div class="container container-narrow">
+        <div class="editor-header">
+          <button class="back-btn" id="editor-back-btn" aria-label="Cancel and go back">✕ Cancel</button>
+          <div class="editor-header-actions">
+            <span class="editor-status" id="editor-status"></span>
+            <button class="btn btn-primary" id="editor-publish-btn">
+              <span id="editor-btn-text">Publish Post</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="editor-container">
+          <div class="editor-field">
+            <input
+              type="text"
+              id="editor-title"
+              class="editor-title-input"
+              placeholder="Your post title..."
+              aria-label="Post title"
+              maxlength="200"
+            />
+          </div>
+          <div class="editor-field">
+            <textarea
+              id="editor-content"
+              class="editor-content-input"
+              placeholder="Tell your story... (supports line breaks and paragraphs)"
+              aria-label="Post content"
+            ></textarea>
+            <div class="editor-footer">
+              <span class="char-count" id="editor-char-count">0 characters</span>
+              <span class="editor-hint">Your content will be beautifully formatted</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======== VIEW: MY PROFILE / POSTS ======== -->
+    <div id="view-profile" class="view">
+      <div class="container">
+        <div class="profile-header">
+          <div class="profile-avatar" id="profile-avatar">
+            <span id="profile-avatar-letter">A</span>
+          </div>
+          <div class="profile-info">
+            <h1 class="profile-name" id="profile-name">Username</h1>
+            <p class="profile-meta" id="profile-meta">Member since...</p>
+            <p class="profile-stats" id="profile-stats">0 posts</p>
+          </div>
+        </div>
+
+        <div class="profile-posts" id="profile-posts-container">
+          <h2 class="section-title">My Posts</h2>
+          <div class="posts-list" id="profile-posts-list"></div>
+          <div class="empty-state hidden" id="profile-posts-empty">
+            <div class="empty-icon">✍️</div>
+            <h3>No posts yet</h3>
+            <p>Start writing your first story!</p>
+            <button class="btn btn-primary" id="profile-write-btn">Write a Post</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ======== AUTH MODAL ======== -->
+  <div class="modal-overlay hidden" id="auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
+    <div class="modal" id="auth-modal-inner">
+      <button class="modal-close" id="auth-modal-close" aria-label="Close modal">✕</button>
+
+      <div class="modal-logo">
+        <span class="logo-icon">✦</span>
+        <span class="logo-text">Inkwell</span>
+      </div>
+
+      <!-- Tabs -->
+      <div class="modal-tabs" role="tablist">
+        <button class="modal-tab active" id="tab-login" role="tab" aria-selected="true" aria-controls="panel-login">Log In</button>
+        <button class="modal-tab" id="tab-register" role="tab" aria-selected="false" aria-controls="panel-register">Create Account</button>
+      </div>
+
+      <!-- Login Panel -->
+      <div class="modal-panel active" id="panel-login" role="tabpanel" aria-labelledby="tab-login">
+        <h2 class="modal-title" id="auth-modal-title">Welcome back</h2>
+        <p class="modal-subtitle">Sign in to continue writing</p>
+        <form id="login-form" novalidate>
+          <div class="form-group">
+            <label for="login-email">Email address</label>
+            <input type="email" id="login-email" placeholder="you@example.com" autocomplete="email" required />
+          </div>
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" placeholder="Your password" autocomplete="current-password" required />
+          </div>
+          <div class="form-error hidden" id="login-error" role="alert"></div>
+          <button type="submit" class="btn btn-primary btn-full" id="login-submit-btn">
+            <span id="login-btn-text">Sign In</span>
+          </button>
+        </form>
+        <p class="modal-switch">Don't have an account? <button class="link-btn" id="switch-to-register">Sign up free</button></p>
+      </div>
+
+      <!-- Register Panel -->
+      <div class="modal-panel" id="panel-register" role="tabpanel" aria-labelledby="tab-register">
+        <h2 class="modal-title">Join Inkwell</h2>
+        <p class="modal-subtitle">Create your account and start writing</p>
+        <form id="register-form" novalidate>
+          <div class="form-group">
+            <label for="register-username">Username</label>
+            <input type="text" id="register-username" placeholder="your_username" autocomplete="username" required maxlength="30" />
+            <span class="form-hint">Letters, numbers, and underscores only</span>
+          </div>
+          <div class="form-group">
+            <label for="register-email">Email address</label>
+            <input type="email" id="register-email" placeholder="you@example.com" autocomplete="email" required />
+          </div>
+          <div class="form-group">
+            <label for="register-password">Password</label>
+            <input type="password" id="register-password" placeholder="At least 6 characters" autocomplete="new-password" required minlength="6" />
+          </div>
+          <div class="form-error hidden" id="register-error" role="alert"></div>
+          <button type="submit" class="btn btn-primary btn-full" id="register-submit-btn">
+            <span id="register-btn-text">Create Account</span>
+          </button>
+        </form>
+        <p class="modal-switch">Already have an account? <button class="link-btn" id="switch-to-login">Sign in</button></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== CONFIRM DIALOG ======== -->
+  <div class="modal-overlay hidden" id="confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+    <div class="modal modal-sm">
+      <div class="confirm-icon" id="confirm-icon">⚠️</div>
+      <h3 class="confirm-title" id="confirm-title">Are you sure?</h3>
+      <p class="confirm-message" id="confirm-message">This action cannot be undone.</p>
+      <div class="confirm-actions">
+        <button class="btn btn-ghost" id="confirm-cancel-btn">Cancel</button>
+        <button class="btn btn-danger" id="confirm-ok-btn">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== TOAST NOTIFICATIONS ======== -->
+  <div class="toast-container" id="toast-container" aria-live="polite" aria-label="Notifications"></div>
+
+  <!-- Scripts -->
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/posts.js"></script>
+  <script src="/js/comments.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
